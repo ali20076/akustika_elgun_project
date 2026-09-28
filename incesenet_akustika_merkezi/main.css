@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+header{
+    border: 1px solid;
+    min-width: 1000px;
+}
+.inside_header{
+    width: 1700px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid;
+    align-items: center;
+}
+.logo img{
+    border-radius: 256px;
+    /* border: 1px solid; */
+    object-fit: contain;
+    width: 100px;
+}
+.bts_logos ul{
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+.bts_logos li{
+    font-size: 12px;
+    border: 1px solid;
+    padding: 8px;
+    border-radius: 20px;
+    width: 120px;
+    overflow: hidden;
+    text-align: center;
+}

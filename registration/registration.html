@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Akustika İncəsənət Mərkəzində qeydiyyat">
+    <title>Qeydiyyat | Akustika İncəsənət Mərkəzi</title>
+    <link href="reg.css" rel="stylesheet">
+</head>
+<body>
+    <main class="auth-page">
+        <section class="welcome-panel" aria-label="Mərkəz haqqında">
+            <a class="brand" href="../incesenet_akustika_merkezi/main.html" aria-label="Akustika İncəsənət Mərkəzi ana səhifə">
+                <span class="brand-mark"><img src="../incesenet_akustika_merkezi/logo.jpg" alt="Akustika logo"></span>
+                <span>Akustika<br><strong>İncəsənət Mərkəzi</strong></span>
+            </a>
+            <div class="welcome-copy">
+                <p class="eyebrow">SƏSİNİ KƏŞF ET</p>
+                <h1>İstedadın üçün<br><em>öz səhnəni</em> qur.</h1>
+                <p class="welcome-text">Dərslərini, müəllimlərini və inkişafını bir məkanda idarə et.</p>
+            </div>
+            <div class="soundwave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <p class="panel-note">Yeni imkanlar. Yeni ritm. Sənin musiqin.</p>
+        </section>
+
+        <section class="form-panel" aria-labelledby="registration-title">
+            <div class="form-wrap">
+                <div class="mobile-brand brand"><span class="brand-mark"><img src="../incesenet_akustika_merkezi/logo.jpg" alt="Akustika logo"></span><span>Akustika<br><strong>İncəsənət Mərkəzi</strong></span></div>
+                <div class="form-heading">
+                    <p class="eyebrow">Xoş gəlmisiniz</p>
+                    <h2 id="registration-title">Qeydiyyat</h2>
+                    <p>Hesabını yarat və musiqi yoluna bu gün başla.</p>
+                </div>
+                <form id="registration-form" novalidate>
+                    <div class="field-row">
+                        <label class="field"><span>Ad</span><input type="text" name="firstName" placeholder="Adınızı yazın" autocomplete="given-name" required></label>
+                        <label class="field"><span>Soyad</span><input type="text" name="lastName" placeholder="Soyadınızı yazın" autocomplete="family-name" required></label>
+                    </div>
+                    <label class="field"><span>E-poçt ünvanı</span><input type="email" name="email" placeholder="siz@example.com" autocomplete="email" required></label>
+                    <label class="field"><span>İştirakçı növü</span><select name="role" required><option value="" selected disabled>Seçim edin</option><option value="student">Şagird</option><option value="teacher">Müəllim</option><option value="parent">Valideyn</option></select></label>
+                    <div class="field-row">
+                        <label class="field"><span>Şifrə</span><span class="password-field"><input id="password" type="password" name="password" placeholder="Minimum 8 simvol" autocomplete="new-password" minlength="8" required><button class="toggle-password" type="button" aria-label="Şifrəni göstər" data-target="password">Göstər</button></span></label>
+                        <label class="field"><span>Şifrəni təsdiqlə</span><span class="password-field"><input id="password-confirm" type="password" name="passwordConfirm" placeholder="Şifrəni təkrarlayın" autocomplete="new-password" minlength="8" required><button class="toggle-password" type="button" aria-label="Şifrəni göstər" data-target="password-confirm">Göstər</button></span></label>
+                    </div>
+                    <label class="agreement"><input type="checkbox" name="agreement" required><span><a href="#terms">İstifadə şərtləri</a> və <a href="#privacy">məxfilik siyasəti</a> ilə razıyam.</span></label>
+                    <button class="submit-button" type="submit">Hesab yarat <span aria-hidden="true">→</span></button>
+                    <p class="form-message" role="status" aria-live="polite"></p>
+                </form>
+                <p class="login-prompt">Artıq hesabınız var? <a href="./login.html">Daxil olun</a></p>
+            </div>
+        </section>
+    </main>
+    <script>
+        const form = document.querySelector('#registration-form');
+        const message = document.querySelector('.form-message');
+        document.querySelectorAll('.toggle-password').forEach((button) => {
+            button.addEventListener('click', () => {
+                const input = document.getElementById(button.dataset.target);
+                const isVisible = input.type === 'text';
+                input.type = isVisible ? 'password' : 'text';
+                button.textContent = isVisible ? 'Göstər' : 'Gizlət';
+                button.setAttribute('aria-label', isVisible ? 'Şifrəni göstər' : 'Şifrəni gizlət');
+            });
+        });
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const password = document.querySelector('#password');
+            const confirmation = document.querySelector('#password-confirm');
+            if (!form.checkValidity()) { form.reportValidity(); return; }
+            if (password.value !== confirmation.value) {
+                confirmation.setCustomValidity('Şifrələr eyni deyil.');
+                confirmation.reportValidity();
+                confirmation.setCustomValidity('');
+                return;
+            }
+            const submitButton = form.querySelector('.submit-button');
+            submitButton.disabled = true;
+            message.textContent = 'Qeydiyyat göndərilir...';
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        firstName: form.elements.firstName.value,
+                        lastName: form.elements.lastName.value,
+                        email: form.elements.email.value,
+                        role: form.elements.role.value,
+                        password: password.value
+                    })
+                });
+                const result = await response.json();
+                message.textContent = result.message;
+                if (response.ok) form.reset();
+            } catch {
+                message.textContent = 'Server əlçatan deyil. server.js başladın.';
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login in</title>
+    <link href="login.css" rel="stylesheet">
+</head>
+<body>
+        <div class="login">
+            <span class="in">
+                <span class="title">
+                    <h1>Loginization</h1>
+                </span>
+                <span class="subtitle">
+                    <p>Please, enter your account in our course, if you already have them</p>
+                </span>
+                <span class="edit">
+                    <div>
+                        <p>Enter Email</p>
+                        <input id="login-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+                    </div>
+                    <div>
+                        <p>Enter Password</p>
+                        <input id="login-password" type="password" placeholder="Minimum 8 characters" autocomplete="current-password" minlength="8" required>
+                    </div>
+                    <div>
+                        <p>Check our policy</p>
+                        <input id="login-policy" type="checkbox" required>
+                    </div>
+                </span>
+                <button id="login-button" type="button">Enter</button>
+                <p class="login-message" role="status" aria-live="polite"></p>
+                <div class="back-regist">
+                    <a href="./registration.html">If you don't have an account, create one</a>
+                </div>
+            </span>
+        </div>
+    <script src="./login.js"></script>
+</body>
+</html>

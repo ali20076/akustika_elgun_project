@@ -1,0 +1,233 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    padding: 24px 16px;
+    background:
+        radial-gradient(circle at 14% 18%, rgba(248, 164, 116, 0.34), transparent 28%),
+        radial-gradient(circle at 86% 82%, rgba(82, 148, 204, 0.38), transparent 32%),
+        linear-gradient(135deg, #111b2e 0%, #203b59 52%, #102235 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    width: min(100%, 550px);
+    padding: clamp(32px, 6vw, 64px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 24px 70px rgba(5, 15, 30, 0.35);
+    animation: login-appear 700ms ease-out both;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+}
+
+.login:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 78px rgba(5, 15, 30, 0.42);
+}
+
+@keyframes login-appear {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.in {
+    display: block;
+}
+
+.title,
+.subtitle,
+.edit {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    align-items: center;
+    color: #14243d;
+}
+
+.title h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.subtitle {
+    align-items: center;
+    margin: 14px auto 34px;
+    max-width: 340px;
+    color: #68758a;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.subtitle p {
+    text-align: center;
+}
+
+.edit {
+    gap: 20px;
+}
+
+.edit div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.edit div p {
+    color: #243653;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.edit input[type="email"],
+.edit input[type="password"] {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 16px;
+    border: 1px solid #d9dfeb;
+    border-radius: 12px;
+    outline: none;
+    background: #f7f9fc;
+    color: #14243d;
+    font: inherit;
+    transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+.edit input::placeholder {
+    color: #a5afbf;
+}
+
+.edit input[type="email"]:focus,
+.edit input[type="password"]:focus {
+    border-color: #4d8fc5;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(77, 143, 197, 0.14);
+}
+
+.edit div:last-child {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2px;
+}
+
+.edit div:last-child p {
+    order: 2;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #68758a;
+}
+
+.edit input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    accent-color: #356f9f;
+}
+
+.in > button {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 28px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #244c72, #3e86b8);
+    box-shadow: 0 10px 20px rgba(36, 76, 114, 0.24);
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.in > button {
+    color: #ffffff;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.login-message {
+    min-height: 22px;
+    margin-top: 14px;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+.login-message.error {
+    color: #c94e38;
+}
+
+.login-message.success {
+    color: #2d8c68;
+}
+
+.in > button a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.in > button:hover {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px rgba(36, 76, 114, 0.3);
+}
+
+.in > button:active {
+    transform: translateY(1px);
+    box-shadow: 0 6px 12px rgba(36, 76, 114, 0.22);
+}
+
+.in > button:focus-within {
+    outline: 3px solid rgba(248, 164, 116, 0.55);
+    outline-offset: 4px;
+}
+
+.back-regist {
+    margin-top: 22px;
+    text-align: center;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.back-regist a {
+    color: #356f9f;
+    text-decoration: none;
+    transition: color 180ms ease, opacity 180ms ease;
+}
+
+.back-regist a:hover {
+    color: #244c72;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.back-regist a:focus-visible {
+    border-radius: 4px;
+    outline: 3px solid rgba(248, 164, 116, 0.55);
+    outline-offset: 4px;
+}
+
+@media (max-width: 420px) {
+    .login {
+        border-radius: 18px;
+    }
+}
