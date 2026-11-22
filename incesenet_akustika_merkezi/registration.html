@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17162d">
+    <title>Qeydiyyat | İncəsənət Mərkəzi</title>
+    <link href="./main.css" rel="stylesheet">
+</head>
+<body class="auth-page">
+    <main class="auth-shell">
+        <section class="auth-showcase">
+            <a class="auth-brand" href="./main.html">İncəsənət Mərkəzi</a>
+            <div>
+                <h1>Yaradıcılığınıza başlayın.</h1>
+                <p>Hesab yaradın, kursları seçin və musiqi təhsili üçün ilk addımı atın.</p>
+            </div>
+            <a class="auth-back" href="./main.html">← Ana səhifəyə qayıt</a>
+        </section>
+
+        <section class="auth-form-wrap">
+            <h2>Qeydiyyat</h2>
+            <p class="auth-subtitle">Yeni hesab yaratmaq üçün məlumatları doldurun.</p>
+            <form class="auth-form" id="registration-form">
+                <div class="auth-field">
+                    <label for="register-name">Ad və soyad</label>
+                    <input id="register-name" name="name" type="text" placeholder="Adınızı daxil edin" required minlength="2">
+                </div>
+                <div class="auth-field">
+                    <label for="register-email">E-poçt</label>
+                    <input id="register-email" name="email" type="email" placeholder="example@email.com" required>
+                </div>
+                <div class="auth-field">
+                    <label for="register-password">Şifrə</label>
+                    <input id="register-password" name="password" type="password" placeholder="Ən azı 6 simvol" required minlength="6">
+                </div>
+                <button class="auth-submit" type="submit">Hesab yarat</button>
+            </form>
+            <p class="auth-message" id="auth-message" aria-live="polite"></p>
+            <p class="auth-switch">Artıq hesabınız var? <a href="./login.html">Giriş edin</a></p>
+        </section>
+    </main>
+    <script src="./js/auth.js"></script>
+</body>
+</html>

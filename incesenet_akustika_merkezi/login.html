@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17162d">
+    <title>Giriş | İncəsənət Mərkəzi</title>
+    <link href="./main.css" rel="stylesheet">
+</head>
+<body class="auth-page">
+    <main class="auth-shell">
+        <section class="auth-showcase">
+            <a class="auth-brand" href="./main.html">İncəsənət Mərkəzi</a>
+            <div>
+                <h1>Səsinə yenidən qovuşun.</h1>
+                <p>Hesabınıza daxil olaraq kursları və şəxsi inkişaf planınızı davam etdirin.</p>
+            </div>
+            <a class="auth-back" href="./main.html">← Ana səhifəyə qayıt</a>
+        </section>
+
+        <section class="auth-form-wrap">
+            <h2>Xoş gəldiniz</h2>
+            <p class="auth-subtitle">Hesabınıza daxil olmaq üçün məlumatları yazın.</p>
+            <form class="auth-form" id="login-form">
+                <div class="auth-field">
+                    <label for="login-email">E-poçt</label>
+                    <input id="login-email" name="email" type="email" placeholder="example@email.com" required>
+                </div>
+                <div class="auth-field">
+                    <label for="login-password">Şifrə</label>
+                    <input id="login-password" name="password" type="password" placeholder="Şifrənizi daxil edin" required>
+                </div>
+                <button class="auth-submit" type="submit">Daxil ol</button>
+            </form>
+            <p class="auth-message" id="auth-message" aria-live="polite"></p>
+            <p class="auth-switch">Hesabınız yoxdur? <a href="./registration.html">Qeydiyyatdan keçin</a></p>
+        </section>
+    </main>
+    <script src="./js/auth.js"></script>
+</body>
+</html>

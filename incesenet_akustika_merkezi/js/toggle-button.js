@@ -41,12 +41,21 @@ const instrumentData = {
     }
 };
 
+const instrumentMelodies = {
+    qitara: { notes: [60, 64, 67, 69, 67, 64, 62, 64], waveform: "triangle", tempo: 310, label: "Qitara melodiyası" },
+    saz: { notes: [57, 60, 62, 64, 62, 60, 57, 55], waveform: "sawtooth", tempo: 360, label: "Saz hava melodiyası" },
+    zurna: { notes: [64, 67, 69, 72, 69, 67, 64, 67], waveform: "square", tempo: 260, label: "Zurna bayram melodiyası" },
+    tar: { notes: [57, 62, 64, 67, 69, 67, 64, 62], waveform: "sine", tempo: 420, label: "Tar muğam melodiyası" },
+    skripka: { notes: [64, 67, 71, 76, 74, 71, 69, 67], waveform: "sine", tempo: 380, label: "Skripka melodiyası" }
+};
+
 const buttons = document.querySelectorAll(".toggle-button");
 const panel = document.querySelector(".tog-but");
 const insideToggle = document.querySelector(".insidetgg");
 let closeTimer;
 
 function closeInstrumentPanel() {
+    stopMelody();
     panel.classList.remove("is-open");
     insideToggle.classList.remove("is-visible");
     buttons.forEach((item) => item.classList.remove("is-active"));
@@ -100,11 +109,122 @@ function openInstrumentPanel(button) {
     });
 
     insideToggle.querySelector(".instrument-close").addEventListener("click", closeInstrumentPanel);
+    playMelody(key);
 
     window.setTimeout(() => {
         panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }, 140);
 }
+
+const listeningSection = document.querySelector(".listening");
+const listenPlay = document.querySelector(".listen-play");
+const listenStop = document.querySelector(".listen-stop");
+const listenName = document.querySelector(".listen-name");
+const listenTime = document.querySelector(".listen-time");
+const listenProgress = document.querySelector(".listen-progress");
+const listenProgressFill = document.querySelector(".listen-progress-fill");
+const listenBars = document.querySelector(".listen-bars");
+let audioContext;
+let activeNodes = [];
+let playbackTimer;
+let progressTimer;
+let activeInstrument = "tar";
+let isPlaying = false;
+
+function midiToFrequency(note) {
+    return 440 * Math.pow(2, (note - 69) / 12);
+}
+
+function stopMelody(updateButton = true) {
+    window.clearInterval(playbackTimer);
+    window.clearInterval(progressTimer);
+    activeNodes.forEach((node) => {
+        try { node.stop(); } catch (error) {}
+    });
+    activeNodes = [];
+    isPlaying = false;
+
+    if (updateButton) {
+        listenPlay.classList.remove("is-playing");
+        listenPlay.querySelector(".listen-play-icon").textContent = "▶";
+        listenPlay.setAttribute("aria-label", "Musiqini başlat");
+        listenProgressFill.style.width = "0%";
+        listenProgress.setAttribute("aria-valuenow", "0");
+        listenTime.textContent = "0:00";
+        listeningSection.classList.remove("is-playing");
+    }
+}
+
+function playMelody(instrumentKey) {
+    stopMelody(false);
+    activeInstrument = instrumentKey;
+    const melody = instrumentMelodies[instrumentKey];
+    if (!melody) return;
+
+    audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+    if (audioContext.state === "suspended") audioContext.resume();
+
+    listenName.textContent = melody.label;
+    listenPlay.classList.add("is-playing");
+    listenPlay.querySelector(".listen-play-icon").textContent = "Ⅱ";
+    listenPlay.setAttribute("aria-label", "Musiqini dayandır");
+    listeningSection.classList.add("is-playing");
+    isPlaying = true;
+
+    let step = 0;
+    let elapsed = 0;
+    const totalDuration = melody.tempo * melody.notes.length;
+
+    listenProgressFill.style.width = "0%";
+    listenTime.textContent = "0:00";
+
+    function playNote() {
+        if (!isPlaying) return;
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        oscillator.type = melody.waveform;
+        oscillator.frequency.value = midiToFrequency(melody.notes[step % melody.notes.length]);
+
+        gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(instrumentKey === "zurna" ? 0.09 : 0.12, audioContext.currentTime + 0.025);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + melody.tempo / 1000 * 0.82);
+
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + melody.tempo / 1000);
+        activeNodes.push(oscillator);
+        step += 1;
+
+        if (step >= melody.notes.length) {
+            window.setTimeout(() => {
+                if (isPlaying) playMelody(instrumentKey);
+            }, melody.tempo);
+            return;
+        }
+    }
+
+    playNote();
+    playbackTimer = window.setInterval(playNote, melody.tempo);
+
+    progressTimer = window.setInterval(() => {
+        elapsed += 100;
+        const percent = Math.min((elapsed / totalDuration) * 100, 100);
+        listenProgressFill.style.width = `${percent}%`;
+        listenProgress.setAttribute("aria-valuenow", String(Math.round(percent)));
+        listenTime.textContent = `0:${String(Math.floor(elapsed / 1000)).padStart(2, "0")}`;
+    }, 100);
+}
+
+listenPlay.addEventListener("click", () => {
+    if (isPlaying) stopMelody();
+    else playMelody(activeInstrument);
+});
+listenStop.addEventListener("click", () => stopMelody());
+
+listenBars.innerHTML = Array.from({ length: 26 }, (_, index) =>
+    `<span style="--bar-index:${index}"></span>`
+).join("");
 
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
