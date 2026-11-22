@@ -1,0 +1,46 @@
+    {
+        "qitara": {
+            "name": "Qitara kursu",
+            "description": "Gitara çalmağı sıfırdan öyrənin və sevdiyiniz mahnıları ifa edin.",
+            "duration": "6 ay",
+            "study": "Nəzəriyyə və praktika",
+            "teachers": "2 müəllim",
+            "schedule": "Həftədə 2 dəfə"
+    },
+
+        "saz": {
+            "name": "Saz kursu",
+            "description": "Azərbaycan xalq musiqisini və saz ifaçılığını öyrənin.",
+            "duration": "8 ay",
+            "study": "Milli musiqi və praktika",
+            "teachers": "1 müəllim",
+            "schedule": "Həftədə 2 dəfə"
+    },
+
+        "zurna": {
+            "name": "Zurna kursu",
+            "description": "Zurna alətində düzgün nəfəs və ifa texnikalarını öyrənin.",
+            "duration": "6 ay",
+            "study": "Nəfəs texnikası və praktika",
+            "teachers": "1 müəllim",
+            "schedule": "Həftədə 2 dəfə"
+    },
+
+        "tar": {
+            "name": "Tar kursu",
+            "description": "Tar ifaçılığını və Azərbaycan muğamının əsaslarını öyrənin.",
+            "duration": "12 ay",
+            "study": "Muğam, nəzəriyyə və praktika",
+            "teachers": "2 müəllim",
+            "schedule": "Həftədə 3 dəfə"
+    },
+
+        "skripka": {
+            "name": "Skripka kursu",
+            "description": "Skripkada düzgün duruşu, yay texnikasını və melodiyaları öyrənin.",
+            "duration": "12 ay",
+            "study": "Musiqi nəzəriyyəsi və praktika",
+            "teachers": "1 müəllim",
+            "schedule": "Həftədə 2 dəfə"
+        }
+    }

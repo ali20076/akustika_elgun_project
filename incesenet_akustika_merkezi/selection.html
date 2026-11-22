@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17162d">
+    <title>Seçiminiz | İncəsənət Mərkəzi</title>
+    <style>
+        html, body { background: #17162d; }
+    </style>
+    <link href="./main.css" rel="stylesheet">
+</head>
+<body class="selected-page">
+    <main class="selection-card">
+        <header class="selection-header">
+            <a class="selection-brand" href="./main.html">İncəsənət Mərkəzi</a>
+            <a class="selection-back" href="./main.html">← Ana səhifə</a>
+        </header>
+        <section class="selection-hero">
+            <p class="selection-eyebrow" id="selection-eyebrow">İncəsənət Mərkəzi</p>
+            <h1 id="selection-title">Seçiminiz: <span id="selected-choice">...</span></h1>
+            <p class="selection-description" id="selection-description" aria-live="polite"></p>
+        </section>
+        <section class="selection-content" id="selection-content"></section>
+    </main>
+    <script src="./js/selection.js"></script>
+</body>
+</html>
