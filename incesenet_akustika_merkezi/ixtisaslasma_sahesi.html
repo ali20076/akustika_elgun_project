@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17162d">
+    <title>İxtisaslaşma sahəsi</title>
+    <link href="./css/ixtisaslasma_sahesi.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="inside_header">
+            <span class="logo">
+                <a href="./main.html" aria-label="Ana səhifəyə qayıt">
+                    <img src="./logo.jpg" alt="İncəsənət Mərkəzi">
+                </a>
+            </span>
+            <div class="info">
+                <a href="./kurslar.html">Kurslar</a>
+                <a href="./ixtisaslasma_sahesi.html" aria-current="page">İxtisaslaşma sahəsi</a>
+                <a href="./biz_haqqinda.html">Biz haqqında</a>
+                <a href="./events.html">Tədbirlər</a>
+            </div>
+            <form class="search" role="search">
+                <input type="search" placeholder="Axtar">
+                <button type="submit" aria-label="Axtar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="10.8" cy="10.8" r="6.3"></circle>
+                        <path d="m15.5 15.5 4.2 4.2"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <section class="specialization-hero">
+                <p class="eyebrow">İnkişaf yolu</p>
+                <h1>Özünə məxsus<br><span>ixtisaslaşmanı seç.</span></h1>
+                <p class="hero-description">Seçdiyin musiqi istiqaməti üzrə peşəkar təhsil, fərdi inkişaf və səhnə təcrübəsi əldə et.</p>
+            </section>
+
+            <section class="specialization-grid" aria-label="İxtisaslaşma istiqamətləri">
+                <article class="specialization-card">
+                    <span class="card-number">01</span>
+                    <div class="card-icon" aria-hidden="true">♪</div>
+                    <h2>Musiqi performansı</h2>
+                    <p>Alətin texnikasını mənimsə, səhnə bacarıqlarını və ifa mədəniyyətini inkişaf etdir.</p>
+                    <a href="./kurslar.html">İstiqaməti araşdır <span>→</span></a>
+                </article>
+                <article class="specialization-card">
+                    <span class="card-number">02</span>
+                    <div class="card-icon" aria-hidden="true">♫</div>
+                    <h2>Bəstəkarlıq</h2>
+                    <p>Musiqi nəzəriyyəsi, kompozisiya və özünəməxsus melodiyalar yaratmaq sənətini öyrən.</p>
+                    <a href="./kurslar.html">İstiqaməti araşdır <span>→</span></a>
+                </article>
+                <article class="specialization-card">
+                    <span class="card-number">03</span>
+                    <div class="card-icon" aria-hidden="true">◉</div>
+                    <h2>Səhnə sənəti</h2>
+                    <p>Konsert təcrübəsi, auditoriya ilə əlaqə və təsirli çıxış üçün praktik hazırlıq keç.</p>
+                    <a href="./events.html">İstiqaməti araşdır <span>→</span></a>
+                </article>
+            </section>
+        </div>
+    </main>
+    <script>
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        document.querySelectorAll('a[href]').forEach((link) => {
+            link.addEventListener("click", (event) => {
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+
+                const url = new URL(link.href, window.location.href);
+                if (url.origin !== window.location.origin || url.href === window.location.href) return;
+
+                event.preventDefault();
+                if (reduceMotion) {
+                    window.location.assign(url.href);
+                    return;
+                }
+
+                document.body.classList.add("page-exiting");
+                window.setTimeout(() => window.location.assign(url.href), 300);
+            });
+        });
+
+        document.querySelector(".search").addEventListener("submit", (event) => {
+            event.preventDefault();
+            const input = event.currentTarget.querySelector("input");
+            input.blur();
+        });
+    </script>
+</body>
+</html>

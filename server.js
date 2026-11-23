@@ -4,8 +4,11 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 
 const root = __dirname;
-const databasePath = path.join(root, 'data', 'users.json');
+const usersDatabasePath = path.join(root, 'data', 'users.json');
+const eventsDatabasePath = path.join(root, 'data', 'events.json');
+const registrationsDatabasePath = path.join(root, 'data', 'event-registrations.json');
 const port = 3000;
+const adminCode = process.env.AKUSTIKA_ADMIN_CODE || 'AKUSTIKA2026';
 
 const mimeTypes = {
     '.css': 'text/css; charset=utf-8',
@@ -17,12 +20,22 @@ const mimeTypes = {
     '.png': 'image/png'
 };
 
+function readJson(databasePath, fallback = []) {
+    if (!fs.existsSync(databasePath)) return fallback;
+    try { return JSON.parse(fs.readFileSync(databasePath, 'utf8')); }
+    catch { return fallback; }
+}
+
+function writeJson(databasePath, data) {
+    fs.writeFileSync(databasePath, JSON.stringify(data, null, 2));
+}
+
 function readUsers() {
-    return JSON.parse(fs.readFileSync(databasePath, 'utf8'));
+    return readJson(usersDatabasePath);
 }
 
 function writeUsers(users) {
-    fs.writeFileSync(databasePath, JSON.stringify(users, null, 2));
+    writeJson(usersDatabasePath, users);
 }
 
 function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
@@ -61,41 +74,106 @@ async function handleApi(request, response) {
         const users = readUsers();
 
         if (request.url === '/api/register' && request.method === 'POST') {
-            if (!email || password.length < 8 || !body.firstName || !body.lastName || !body.role) {
-                return sendJson(response, 400, { message: 'Заполните все обязательные поля.' });
+            const name = String(body.name || [body.firstName, body.lastName].filter(Boolean).join(' ')).trim();
+            const roleMap = { student: 'shagird', teacher: 'muellim', parent: 'valideyn' };
+            const role = roleMap[String(body.role || 'shagird')] || String(body.role || 'shagird');
+            const mode = String(body.mode || 'user');
+
+            if (!name || name.length < 2 || password.length < 6 || !email) {
+                return sendJson(response, 400, { message: 'Ad, e-poçt və şifrəni düzgün doldurun.' });
             }
-            if (users.some((user) => user.email === email)) {
-                return sendJson(response, 409, { message: 'Пользователь с таким email уже существует.' });
+            if (!['shagird', 'muellim', 'valideyn'].includes(role)) {
+                return sendJson(response, 400, { message: 'Yanlış istifadəçi növü.' });
             }
+            if (!['user', 'admin'].includes(mode)) {
+                return sendJson(response, 400, { message: 'Yanlış giriş rejimi.' });
+            }
+            if (mode === 'admin' && String(body.adminCode || '') !== adminCode) {
+                return sendJson(response, 403, { message: 'Admin giriş kodu yanlışdır.' });
+            }
+            if (users.some((user) => user.email === email && user.role === role && user.mode === mode)) {
+                return sendJson(response, 409, { message: 'Bu rol və rejim üçün hesab artıq mövcuddur.' });
+            }
+
             users.push({
                 id: crypto.randomUUID(),
-                firstName: String(body.firstName).trim(),
-                lastName: String(body.lastName).trim(),
+                name,
                 email,
-                role: String(body.role),
-                password: hashPassword(password)
+                role,
+                mode,
+                password: hashPassword(password),
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
             });
             writeUsers(users);
-            return sendJson(response, 201, { message: 'Регистрация завершена.' });
+            return sendJson(response, 201, { message: 'Qeydiyyat tamamlandı.', account: { name, email, role, mode } });
         }
 
         if (request.url === '/api/login' && request.method === 'POST') {
-            const user = users.find((candidate) => candidate.email === email);
-            if (!user || !passwordMatches(password, user.password)) {
-                return sendJson(response, 401, { message: 'Неверный email или пароль.' });
+            const role = String(body.role || 'shagird');
+            const mode = String(body.mode || 'user');
+
+            if (mode === 'admin' && String(body.adminCode || '') !== adminCode) {
+                return sendJson(response, 403, { message: 'Admin giriş kodu yanlışdır.' });
             }
-            return sendJson(response, 200, { message: `Добро пожаловать, ${user.firstName}!` });
+
+            const user = users.find((candidate) => candidate.email === email && candidate.role === role && candidate.mode === mode);
+            if (!user || !passwordMatches(password, user.password)) {
+                return sendJson(response, 401, { message: 'E-poçt, şifrə, rol və ya rejim yanlışdır.' });
+            }
+            return sendJson(response, 200, {
+                message: `Xoş gəldiniz, ${user.name}!`,
+                account: { id: user.id, name: user.name, email: user.email, role: user.role, mode: user.mode }
+            });
+        }
+
+        if (request.url === '/api/events' && request.method === 'GET') {
+            return sendJson(response, 200, { events: readJson(eventsDatabasePath, []) });
+        }
+
+        if (request.url === '/api/event-register' && request.method === 'POST') {
+            const eventId = String(body.eventId || '').trim();
+            const participantName = String(body.name || '').trim();
+            const participantEmail = String(body.email || '').trim().toLowerCase();
+            const phone = String(body.phone || '').trim();
+            const instrument = String(body.instrument || '').trim();
+
+            if (!eventId || !participantName || !participantEmail) {
+                return sendJson(response, 400, { message: 'Ad, e-poçt və tədbir mütləqdir.' });
+            }
+
+            const events = readJson(eventsDatabasePath, []);
+            const event = events.find((item) => item.id === eventId);
+            if (!event) return sendJson(response, 404, { message: 'Tədbir tapılmadı.' });
+
+            const registrations = readJson(registrationsDatabasePath);
+            if (registrations.some((item) => item.eventId === eventId && item.email === participantEmail)) {
+                return sendJson(response, 409, { message: 'Bu tədbirə artıq qeydiyyatdan keçmisiniz.' });
+            }
+
+            registrations.push({
+                id: crypto.randomUUID(),
+                eventId,
+                eventTitle: event.title,
+                name: participantName,
+                email: participantEmail,
+                phone,
+                instrument,
+                createdAt: new Date().toISOString()
+            });
+            writeJson(registrationsDatabasePath, registrations);
+            return sendJson(response, 201, { message: 'Konsert tədbirinə qeydiyyat tamamlandı!' });
         }
 
         sendJson(response, 404, { message: 'API route not found.' });
-    } catch {
-        sendJson(response, 400, { message: 'Не удалось обработать запрос.' });
+    } catch (error) {
+        sendJson(response, 400, { message: 'Server sorğunu emal edə bilmədi.' });
     }
 }
 
 function serveStatic(request, response) {
     const requestedPath = decodeURIComponent(new URL(request.url, `http://${request.headers.host}`).pathname);
-    const relativePath = requestedPath === '/' ? '/registration/registration.html' : requestedPath;
+    const relativePath = requestedPath === '/' ? '/incesenet_akustika_merkezi/main.html' : requestedPath;
     const filePath = path.resolve(root, `.${relativePath}`);
     if (!filePath.startsWith(root) || !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
         response.writeHead(404);
@@ -106,12 +184,36 @@ function serveStatic(request, response) {
     fs.createReadStream(filePath).pipe(response);
 }
 
-fs.mkdirSync(path.dirname(databasePath), { recursive: true });
-if (!fs.existsSync(databasePath)) writeUsers([]);
+fs.mkdirSync(path.dirname(usersDatabasePath), { recursive: true });
+if (!fs.existsSync(usersDatabasePath)) writeUsers([]);
+if (!fs.existsSync(eventsDatabasePath)) {
+    writeJson(eventsDatabasePath, [
+        { id: 'spring-concert', title: 'Bahara qədər', date: '2026-04-18', time: '19:00', venue: 'Akustika Konsert Zalı', category: 'Böyük konsert', description: 'Tar, saz, gitara və skripka sənətçiləri ilə birlikdə mövsümün ən canlı proqramı.', image: 'spring' },
+        { id: 'young-musicians', title: 'Gənc istedadlar gecəsi', date: '2026-05-24', time: '18:30', venue: 'Akustika Səhnəsi', category: 'Şagirdlər tədbiri', description: 'Mərkəzin şagirdləri üçün solo və ansambl çıxışlarının təqdimatı.', image: 'young' },
+        { id: 'mugam-evening', title: 'Muğam axşamı', date: '2026-06-12', time: '20:00', venue: 'Tarixin İşığı Zalı', category: 'Tematik axşam', description: 'Klassik muğam dastgahları və zəngin sənət proqramı.', image: 'mugam' }
+    ]);
+}
+if (!fs.existsSync(registrationsDatabasePath)) writeJson(registrationsDatabasePath, []);
 
-http.createServer((request, response) => {
+const server = http.createServer((request, response) => {
     if (request.url.startsWith('/api/')) return handleApi(request, response);
     serveStatic(request, response);
-}).listen(port, () => {
+});
+
+server.on('error', (error) => {
+    if (error.code === 'EADDRINUSE') {
+        const fallbackPort = 3001;
+        console.error(`Port ${port} is busy. Trying port ${fallbackPort}...`);
+        server.listen(fallbackPort, '127.0.0.1', () => {
+            console.log(`Server started: http://localhost:${fallbackPort}`);
+        });
+        return;
+    }
+
+    console.error(`Server could not start: ${error.message}`);
+    process.exitCode = 1;
+});
+
+server.listen(port, '127.0.0.1', () => {
     console.log(`Server started: http://localhost:${port}`);
 });

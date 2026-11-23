@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17162d">
+    <title>Tədbirlər və Konsertlər | İncəsənət Mərkəzi</title>
+    <link href="./main.css" rel="stylesheet">
+</head>
+<body class="events-page">
+    <main class="events-shell">
+        <header class="events-header">
+            <a class="events-brand" href="./main.html">İncəsənət Mərkəzi</a>
+            <nav class="events-nav" aria-label="Tədbirlər naviqasiyası">
+                <a href="#events-grid">Tədbirlər</a>
+                <a class="events-back" href="./main.html">← Ana səhifə</a>
+            </nav>
+        </header>
+
+        <section class="events-hero">
+            <p class="events-kicker">Konsert proqramı 2026</p>
+            <h1>Səhnəyə hazırlaşın.</h1>
+            <p>Şagirdlərin, müəllimlərin və musiqi həvəskarlarının bir araya gəldiyi tədbirlər.</p>
+            <a class="events-hero-button" href="#events-grid">
+                <span aria-hidden="true">♫</span>
+                Tədbirlərə bax
+                <b aria-hidden="true">↓</b>
+            </a>
+        </section>
+
+        <section class="events-grid" id="events-grid" aria-live="polite"></section>
+    </main>
+
+    <div class="event-modal" id="event-modal" hidden>
+        <div class="event-modal-card" role="dialog" aria-modal="true" aria-labelledby="event-modal-title">
+            <button type="button" class="event-modal-close" aria-label="Bağla">×</button>
+            <p class="event-kicker">Tədbirə qeydiyyat</p>
+            <h2 id="event-modal-title">Tədbir</h2>
+            <p id="event-modal-info"></p>
+            <form id="event-registration-form" class="event-form">
+                <input type="hidden" name="eventId">
+                <div class="auth-field">
+                    <label for="event-name">Ad və soyad</label>
+                    <input id="event-name" name="name" type="text" required minlength="2" placeholder="Adınızı daxil edin">
+                </div>
+                <div class="auth-field">
+                    <label for="event-email">E-poçt</label>
+                    <input id="event-email" name="email" type="email" required placeholder="example@email.com">
+                </div>
+                <div class="auth-field">
+                    <label for="event-phone">Telefon</label>
+                    <input id="event-phone" name="phone" type="tel" placeholder="+994 00 000 00 00">
+                </div>
+                <div class="auth-field">
+                    <label for="event-instrument">Alət</label>
+                    <select id="event-instrument" name="instrument">
+                        <option value="">Seçin</option>
+                        <option>Qitara</option>
+                        <option>Saz</option>
+                        <option>Zurna</option>
+                        <option>Tar</option>
+                        <option>Skripka</option>
+                    </select>
+                </div>
+                <button class="auth-submit" type="submit">İştirak üçün qeydiyyat</button>
+            </form>
+            <p class="event-form-message" id="event-form-message" aria-live="polite"></p>
+        </div>
+    </div>
+    <script src="./js/events.js"></script>
+    <script>
+        document.querySelectorAll('a[href^="./"]').forEach((link) => {
+            link.addEventListener("click", (event) => {
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+                if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+                event.preventDefault();
+                document.querySelector(".events-shell").classList.add("is-leaving");
+                window.setTimeout(() => window.location.assign(link.href), 300);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -14,6 +14,11 @@
             <div>
                 <h1>Səsinə yenidən qovuşun.</h1>
                 <p>Hesabınıza daxil olaraq kursları və şəxsi inkişaf planınızı davam etdirin.</p>
+                <div class="auth-benefits">
+                    <article><span>01</span><p><strong>Şagird</strong><br>Dərslər və nəticələr</p></article>
+                    <article><span>02</span><p><strong>Müəllim</strong><br>Qruplar və proqramlar</p></article>
+                    <article><span>03</span><p><strong>Valideyn</strong><br>İrəliləyiş nəzarəti</p></article>
+                </div>
             </div>
             <a class="auth-back" href="./main.html">← Ana səhifəyə qayıt</a>
         </section>
@@ -30,6 +35,27 @@
                     <label for="login-password">Şifrə</label>
                     <input id="login-password" name="password" type="password" placeholder="Şifrənizi daxil edin" required>
                 </div>
+                <div class="auth-field">
+                    <label for="login-role">İstifadəçi növü</label>
+                    <select id="login-role" name="role" required>
+                        <option value="shagird">Şagird</option>
+                        <option value="muellim">Müəllim</option>
+                        <option value="valideyn">Valideyn</option>
+                    </select>
+                </div>
+                <fieldset class="auth-mode">
+                    <legend>Rejim</legend>
+                    <label><input type="radio" name="mode" value="user" checked><span><strong>İstifadəçi</strong><small>Şəxsi panel</small></span></label>
+                    <label><input type="radio" name="mode" value="admin"><span><strong>Admin</strong><small>Mərkəz idarəetməsi</small></span></label>
+                </fieldset>
+                <div class="auth-field admin-code-field" hidden>
+                    <label for="login-admin-code">Admin giriş kodu</label>
+                    <input id="login-admin-code" name="adminCode" type="password" placeholder="Demo kod: AKUSTIKA2026">
+                </div>
+                <details class="auth-policy">
+                    <summary>Məxfilik və üstünlüklər</summary>
+                    <p>Valideynlər övladın tədris irəliləyişini, şagirdlər kurs və müəllim məlumatlarını, müəllimlər isə öz qruplarını idarə edə bilər. Admin hesabı təsdiqlənmiş inzibatçılar üçündür.</p>
+                </details>
                 <button class="auth-submit" type="submit">Daxil ol</button>
             </form>
             <p class="auth-message" id="auth-message" aria-live="polite"></p>

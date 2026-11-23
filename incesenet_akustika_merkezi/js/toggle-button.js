@@ -1,43 +1,35 @@
 const instrumentData = {
-    qitara: {
-        name: "Qitara",
-        description: "Müasir gitara texnikası, akkordlar, barmaq düzümü və repertuar üzrə mərhələli təhsil.",
-        duration: "6 ay",
-        level: "Başlanğıc — İrəliləmiş",
-        literature: ["F. F. Leavitt — A Modern Method for Guitar", "Matteo Carcassi — 25 Studies", "Sor Studies", "Azerbaycan xalq mahnıları repertuarı"],
-        teachers: ["Əhməd Məmmədov — Klassik gitara", "Leyla Əliyeva — Akustik gitara", "Kamran Həsənov — Müasir gitara"]
+    information: {
+        name: "Məlumat",
+        description: "İncəsənət Mərkəzi haqqında təhsil istiqamətləri, proqramlar və kursların əsas məlumatları.",
+        duration: "İl boyu",
+        level: "Hər yaş",
+        literature: ["Musiqi təhsili proqramları", "Alət seçimi üzrə konsultasiya", "Uşaq və böyüklər üçün qruplar", "Sərbəst səhnə təcrübəsi"],
+        teachers: ["Peşəkar tədris heyəti", "Fərdi və qrup məşğələləri", "Konsert proqramları", "Sistemli repertuar hazırlığı"]
     },
-    saz: {
-        name: "Saz",
-        description: "Azərbaycan saz məktəbindən ifa texnikası, müxtəlif köklər, aşıq bağlaması və muğam öyrənmək.",
-        duration: "8 ay",
-        level: "Başlanğıc — İrəliləmiş",
-        literature: ["Saz və dəstlərin ifa təcrübəsi", "Aşıq Ələsgər mahnıları", "Muğamlar — saz üçün notlar", "Qaraşlı — xalq havaları"],
-        teachers: ["Mikayıl Rəhimov — Saz", "Nigar Quliyeva — Muğam", "Rəşad Abbasov — Aşıq sənəti"]
+    history: {
+        name: "Musiqi tarixi",
+        description: "Azərbaycan xalq çalğı alətlərindən klassik musiqiyə qədər zəngin musiqi irsimiz.",
+        duration: "Keçmiş — bu gün",
+        level: "Ümumi və xüsusi",
+        literature: ["Muğam ənənəsi", "Aşıq sənəti", "Tar, saz və kamança məktəbləri", "Klassik və müasir Azərbaycan musiqisi"],
+        teachers: ["Muğam tarixçəsi", "Xalq havalarının yaranması", "Səhnə ənənələrinin inkişafı", "Bəstəkar məktəbləri"]
     },
-    zurna: {
-        name: "Zurna",
-        description: "Zurna nəfəs texnikası, trilllər, xalq havaları və milli bayram repertuarı üzrə təlim.",
-        duration: "5 ay",
-        level: "Başlanğıc — Orta",
-        literature: ["Zurna üçün nəfəs texnikası", "Azərbaycan xalq havaları", "Nizami Paşayev — zurna parçaları", "Toy və mərasim repertuarı"],
-        teachers: ["Nazim Əliyev — Zurna", "Tərlan Məmmədov — Xalq havaları", "Elçin Hüseynov — Bayram repertuarı"]
+    melody: {
+        name: "Musiqi və melodiyalar",
+        description: "Müxtəlif alətlərə aid canlı melodiyalarla musiqi atmosferini hiss et.",
+        duration: "Canlı dinləmə",
+        level: "Dinləyici",
+        literature: ["Tar melodiyası", "Saz havası", "Zurna ritmləri", "Skripka və gitara repertuarı"],
+        teachers: ["Dinlə və seç", "Tempi müqayisə et", "Musiqi ruhunu hiss et", "Sevdiyin aləti öyrən"]
     },
-    tar: {
-        name: "Tar",
-        description: "Muğam dastgahları, tarın barmaq pozusiyası, lal barmaq, zərbli və melodik ifa texnikaları.",
-        duration: "12 ay",
-        level: "Başlanğıc — Peşəkar",
-        literature: ["Hacı Məmmədov — Tar üçün musiqi kitabı", "Səid Rustamov repertuarı", "Muğam əzbərləmə dəftəri", "Azərbaycan tar məktəbləri"],
-        teachers: ["Məşədixanım Əsədova — Tar", "Fərid Ələkbərov — Muğam", "Vüqar Abdullayev — Klassik repertuar"]
-    },
-    skripka: {
-        name: "Skripka",
-        description: "Musiqi oxuma, yay çəkilişi, vibrato, etüd və klassik repertuar üzrə sistemli təhsil.",
-        duration: "12 ay",
-        level: "Başlanğıc — Peşəkar",
-        literature: ["W. Wohlfahrt — Violin Studies", "K. H. H. Kayser — 36 Studies", "Suzuki Violin School", "Azərbaycan xalq mahnıları — skripka üçün"],
-        teachers: ["Aygün Musayeva — Klassik skripka", "Emil Vəliyev — Orkestr ifası", "Sevil Qafarova — Kamer musiqisi"]
+    artwork: {
+        name: "İncəsənət əsərləri",
+        description: "Musiqi əsərlərini, ölkə təhsilində bəstəkarları və yaradıcılıq nümunələrini kəşf et.",
+        duration: "Yaradıcı kolleksiya",
+        level: "Klassik — Müasir",
+        literature: ["Muğam dastgahları", "Azərbaycan xalq mahnıları", "Simfonik və kamera əsərləri", "Müasir musiqi nümunələri"],
+        teachers: ["Üzeyir Hacıbəyli", "Qara Qarayev", "Fikrət Əmirov", "Niyazi"]
     }
 };
 
@@ -46,7 +38,11 @@ const instrumentMelodies = {
     saz: { notes: [57, 60, 62, 64, 62, 60, 57, 55], waveform: "sawtooth", tempo: 360, label: "Saz hava melodiyası" },
     zurna: { notes: [64, 67, 69, 72, 69, 67, 64, 67], waveform: "square", tempo: 260, label: "Zurna bayram melodiyası" },
     tar: { notes: [57, 62, 64, 67, 69, 67, 64, 62], waveform: "sine", tempo: 420, label: "Tar muğam melodiyası" },
-    skripka: { notes: [64, 67, 71, 76, 74, 71, 69, 67], waveform: "sine", tempo: 380, label: "Skripka melodiyası" }
+    skripka: { notes: [64, 67, 71, 76, 74, 71, 69, 67], waveform: "sine", tempo: 380, label: "Skripka melodiyası" },
+    information: { notes: [60, 64, 67, 64, 60, 62, 67, 64], waveform: "triangle", tempo: 420, label: "Məlumat maraq melodiyası" },
+    history: { notes: [57, 60, 64, 62, 60, 57, 55, 57], waveform: "sine", tempo: 460, label: "Tarix havası" },
+    melody: { notes: [60, 64, 67, 71, 69, 67, 64, 62], waveform: "triangle", tempo: 300, label: "Canlı melodiyalar" },
+    artwork: { notes: [64, 67, 69, 72, 69, 67, 64, 67], waveform: "sine", tempo: 390, label: "İncəsənət əsəri atmosferi" }
 };
 
 const buttons = document.querySelectorAll(".toggle-button");
@@ -68,7 +64,7 @@ function closeInstrumentPanel() {
 
 function openInstrumentPanel(button) {
     window.clearTimeout(closeTimer);
-    const key = button.textContent.trim().toLowerCase();
+    const key = button.dataset.category;
     const data = instrumentData[key];
     if (!data) return;
 

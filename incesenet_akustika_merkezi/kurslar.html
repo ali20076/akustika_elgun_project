@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#17162d">
+    <title>Kurslar</title>
+    <link href="./css/kurslar.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="inside_header">
+            <span class="logo">
+                <a href="./main.html" aria-label="Ana səhifəyə qayıt">
+                    <img src="./logo.jpg" alt="İncəsənət Mərkəzi">
+                </a>
+            </span>
+            <div class="info">
+                <a href="./kurslar.html" aria-current="page">Kurslar</a>
+                <a href="./ixtisaslasma_sahesi.html">İxtisaslaşma sahəsi</a>
+                <a href="./biz_haqqinda.html">Biz haqqında</a>
+                <a href="./events.html">Tədbirlər</a>
+            </div>
+            <form class="search" role="search">
+                <input type="search" placeholder="Kursları axtar">
+                <button type="button" aria-label="Axtar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="10.8" cy="10.8" r="6.3"></circle>
+                        <path d="m15.5 15.5 4.2 4.2"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <p class="course-eyebrow">Tədris istiqamətləri</p>
+            <h1>Kurslar və musiqi dünyası</h1>
+            <p class="course-intro">Məlumatı seç, janrları kəşf et və canlı 3D alətlərlə musiqi dünyasına daxil ol.</p>
+            <a class="course-events-button" href="./events.html">
+                <span aria-hidden="true">♫</span>
+                Tədbirlərdə iştirak et
+                <b aria-hidden="true">→</b>
+            </a>
+        </div>
+        <div class="kurslar_list">
+            <button type="button" class="course-card musiqi_perfomans is-active" data-category="information">
+                <span class="course-number">01</span>
+                <span class="course-icon" aria-hidden="true">i</span>
+                <span class="course-name">Məlumat</span>
+                <span class="course-description">Kurslar və təhsil haqqında məlumat</span>
+            </button>
+            <button type="button" class="course-card bestekarliq" data-category="genre">
+                <span class="course-number">02</span>
+                <span class="course-icon" aria-hidden="true">G</span>
+                <span class="course-name">Janr</span>
+                <span class="course-description">Musiqi janrlarını kəşf et</span>
+            </button>
+            <button type="button" class="course-card" data-category="work">
+                <span class="course-number">03</span>
+                <span class="course-icon" aria-hidden="true">Ə</span>
+                <span class="course-name">Əsər</span>
+                <span class="course-description">Məşhur musiqi əsərləri</span>
+            </button>
+            <button type="button" class="course-card" data-category="melody">
+                <span class="course-number">04</span>
+                <span class="course-icon" aria-hidden="true">♫</span>
+                <span class="course-name">Melodiya</span>
+                <span class="course-description">Canlı və klassik melodiyalar</span>
+            </button>
+            <button type="button" class="course-card sehne_seneti" data-category="art">
+                <span class="course-number">05</span>
+                <span class="course-icon" aria-hidden="true">◆</span>
+                <span class="course-name">İncəsənət</span>
+                <span class="course-description">Yaradıcı sənət dünyası</span>
+            </button>
+        </div>
+        <section class="instrument-stage" aria-live="polite" data-instrument="saz">
+            <div class="stage-copy">
+                <p class="stage-kicker">Seçilmiş istiqamət</p>
+                <h2 id="stage-title">Məlumat</h2>
+                <p id="stage-description">Kurs proqramları, səviyyələr və tədris müddəti haqqında məlumat əldə et.</p>
+            </div>
+            <div class="model-stage" aria-hidden="true">
+                <div class="model-shadow"></div>
+                <div class="instrument-model">
+                    <div class="instrument-neck"></div>
+                    <div class="instrument-body"><span></span></div>
+                    <div class="instrument-strings"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const stageContent = {
+            information: {
+                title: "Məlumat",
+                description: "Kurs proqramları, səviyyələr və tədris müddəti haqqında məlumat əldə et.",
+                instrument: "saz"
+            },
+            genre: {
+                title: "Janr",
+                description: "Muğam, xalq musiqisi, klassik və müasir janrlara daxil ol.",
+                instrument: "tar"
+            },
+            work: {
+                title: "Əsər",
+                description: "Musiqi repertuarının ən məşhur və öyrədici əsərlərini kəşf et.",
+                instrument: "guitar"
+            },
+            melody: {
+                title: "Melodiya",
+                description: "İfa nümunələri və canlı melodiyalar alətlərin ruhunu səsləndirir.",
+                instrument: "violin"
+            },
+            art: {
+                title: "İncəsənət",
+                description: "Yaradıcı səhnə sənəti, kompozisiya və musiqi estetikası.",
+                instrument: "zurna"
+            }
+        };
+        const courseCards = document.querySelectorAll(".course-card");
+        const stage = document.querySelector(".instrument-stage");
+        const stageTitle = document.querySelector("#stage-title");
+        const stageDescription = document.querySelector("#stage-description");
+
+        courseCards.forEach((card) => {
+            card.addEventListener("click", () => {
+                const category = card.dataset.category;
+                const content = stageContent[category];
+                if (!content) return;
+
+                courseCards.forEach((item) => item.classList.toggle("is-active", item === card));
+                stage.classList.remove("is-changing");
+                void stage.offsetWidth;
+                stage.dataset.instrument = content.instrument;
+                stageTitle.textContent = content.title;
+                stageDescription.textContent = content.description;
+                stage.classList.add("is-changing");
+                stage.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
+            });
+        });
+
+        document.querySelectorAll('a[href]').forEach((link) => {
+            link.addEventListener("click", (event) => {
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+
+                const url = new URL(link.href, window.location.href);
+                if (url.origin !== window.location.origin || url.href === window.location.href) return;
+
+                event.preventDefault();
+                if (reduceMotion) {
+                    window.location.assign(url.href);
+                    return;
+                }
+
+                document.body.classList.add("page-exiting");
+                document.querySelectorAll("main, .inside_header").forEach((element) => {
+                    element.style.transform = "translateY(-12px) scale(0.985)";
+                });
+                window.setTimeout(() => window.location.assign(url.href), 300);
+            });
+        });
+    </script>
+</body>
+</html>

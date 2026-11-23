@@ -1,0 +1,32 @@
+[
+  {
+    "id": "spring-concert",
+    "title": "Bahara qədər",
+    "date": "2026-04-18",
+    "time": "19:00",
+    "venue": "Akustika Konsert Zalı",
+    "category": "Böyük konsert",
+    "description": "Tar, saz, gitara və skripka sənətçiləri ilə birlikdə mövsümün ən canlı proqramı.",
+    "image": "spring"
+  },
+  {
+    "id": "young-musicians",
+    "title": "Gənc istedadlar gecəsi",
+    "date": "2026-05-24",
+    "time": "18:30",
+    "venue": "Akustika Səhnəsi",
+    "category": "Şagirdlər tədbiri",
+    "description": "Mərkəzin şagirdləri üçün solo və ansambl çıxışlarının təqdimatı.",
+    "image": "young"
+  },
+  {
+    "id": "mugam-evening",
+    "title": "Muğam axşamı",
+    "date": "2026-06-12",
+    "time": "20:00",
+    "venue": "Tarixin İşığı Zalı",
+    "category": "Tematik axşam",
+    "description": "Klassik muğam dastgahları və zəngin sənət proqramı.",
+    "image": "mugam"
+  }
+]

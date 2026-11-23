@@ -1,0 +1,635 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --ink: #17162d;
+    --gold: #f7d98d;
+    --pink: #ff038e;
+    --violet: #9000ff;
+    --white: #f9feed;
+}
+
+html {
+    background: var(--ink);
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 80% 15%, rgba(144, 0, 255, 0.14), transparent 24rem),
+        linear-gradient(145deg, #17162d, #25203b 58%, #30203e);
+    color: var(--white);
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", sans-serif;
+}
+
+body.page-exiting main,
+body.page-exiting .inside_header {
+    opacity: 0;
+    filter: blur(5px);
+}
+
+.inside_header {
+    width: 100%;
+    min-height: 92px;
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr) minmax(180px, 260px);
+    align-items: center;
+    gap: clamp(18px, 3vw, 48px);
+    padding: 10px clamp(18px, 5vw, 72px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(23, 22, 45, 0.88);
+    box-shadow: 0 14px 40px rgba(5, 4, 20, 0.22);
+    backdrop-filter: blur(18px);
+    opacity: 0;
+    transform: translateY(-28px);
+    animation: header-arrive 750ms cubic-bezier(0.2, 0.8, 0.2, 1) 120ms forwards;
+    transition: opacity 300ms ease, transform 300ms ease, filter 300ms ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 72px;
+    height: 72px;
+    border: 1px solid rgba(247, 217, 141, 0.32);
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.logo img:hover {
+    transform: rotate(-4deg) scale(1.06);
+    box-shadow: 0 12px 32px rgba(144, 0, 255, 0.28);
+}
+
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(18px, 3vw, 42px);
+}
+
+.info a {
+    position: relative;
+    display: inline-block;
+    padding: 10px 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 220ms ease, transform 220ms ease;
+}
+
+.info a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    left: 0;
+    height: 2px;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--gold), var(--pink));
+    transform: scaleX(0);
+    transition: transform 260ms ease;
+}
+
+.info a:hover,
+.info a[aria-current="page"] {
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.info a:hover::after,
+.info a[aria-current="page"]::after {
+    transform: scaleX(1);
+}
+
+.search {
+    position: relative;
+    width: 100%;
+}
+
+.search input {
+    width: 100%;
+    height: 44px;
+    padding: 0 48px 0 18px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+    outline: none;
+    transition: border-color 220ms ease, background 220ms ease, box-shadow 220ms ease;
+}
+
+.search input::placeholder {
+    color: rgba(255, 255, 255, 0.48);
+}
+
+.search input:focus {
+    border-color: rgba(247, 217, 141, 0.55);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 0 4px rgba(247, 217, 141, 0.08);
+}
+
+.search button {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), #ff73bb);
+    color: var(--ink);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.search button:hover {
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 6px 18px rgba(255, 3, 142, 0.28);
+}
+
+.search svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 2;
+}
+
+.container {
+    width: min(1180px, calc(100% - 32px));
+    margin: clamp(48px, 8vw, 96px) auto;
+    padding: clamp(30px, 6vw, 64px);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.055);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+    opacity: 0;
+    transform: translateY(32px);
+    animation: content-arrive 700ms cubic-bezier(0.2, 0.8, 0.2, 1) 260ms forwards;
+    transition: opacity 300ms ease, transform 300ms ease, filter 300ms ease;
+}
+
+.container h1 {
+    margin-bottom: 12px;
+    font-size: clamp(42px, 7vw, 76px);
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.container p {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+.course-eyebrow {
+    margin-bottom: 12px;
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.course-intro {
+    max-width: 660px;
+    margin-top: 16px;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.course-events-button {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    padding: 13px 15px 13px 11px;
+    border: 1px solid rgba(247, 217, 141, 0.38);
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(247, 217, 141, 0.14), rgba(255, 115, 187, 0.12));
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.16);
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+.course-events-button span {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), #ff73bb);
+    color: var(--ink);
+}
+.course-events-button b {
+    color: var(--gold);
+    transition: transform 220ms ease;
+}
+.course-events-button:hover {
+    transform: translateY(-4px);
+    border-color: rgba(247, 217, 141, 0.72);
+    box-shadow: 0 16px 40px rgba(255, 3, 142, 0.16);
+}
+.course-events-button:hover b {
+    transform: translateX(5px);
+}
+
+.kurslar_list {
+    width: min(1180px, calc(100% - 32px));
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+    margin: -48px auto 24px;
+}
+
+.course-card {
+    position: relative;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.055);
+    color: var(--white);
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 260ms ease, border-color 260ms ease, background 260ms ease, box-shadow 260ms ease;
+}
+
+.course-card::after {
+    content: "";
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    right: -56px;
+    bottom: -58px;
+    border-radius: 50%;
+    background: rgba(255, 115, 187, 0.14);
+    transition: transform 400ms ease, background 400ms ease;
+}
+
+.course-card:hover,
+.course-card.is-active {
+    transform: translateY(-8px);
+    border-color: rgba(247, 217, 141, 0.38);
+    background: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
+}
+
+.course-card:hover::after,
+.course-card.is-active::after {
+    transform: scale(1.25);
+    background: rgba(247, 217, 141, 0.16);
+}
+
+.course-card:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 4px;
+}
+
+.course-number {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.course-icon {
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    margin: 26px 0 18px;
+    border: 1px solid rgba(247, 217, 141, 0.24);
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(247, 217, 141, 0.16), rgba(255, 3, 142, 0.12));
+    color: var(--gold);
+    font-size: 21px;
+    transition: transform 300ms ease;
+}
+
+.course-card:hover .course-icon,
+.course-card.is-active .course-icon {
+    transform: rotate(-8deg) scale(1.08);
+}
+
+.course-name {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.course-description {
+    margin-top: 8px;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.instrument-stage {
+    width: min(1180px, calc(100% - 32px));
+    min-height: 330px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 30px;
+    margin: 18px auto 72px;
+    padding: 38px clamp(24px, 5vw, 62px);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at 75% 45%, rgba(255, 115, 187, 0.16), transparent 18rem),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.035));
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+    perspective: 900px;
+    overflow: hidden;
+}
+
+.stage-kicker {
+    margin-bottom: 10px;
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.stage-copy h2 {
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 1;
+}
+
+.stage-copy > p:last-child {
+    max-width: 470px;
+    margin-top: 18px;
+    color: rgba(255, 255, 255, 0.68);
+    line-height: 1.7;
+}
+
+.model-stage {
+    position: relative;
+    min-height: 250px;
+    display: grid;
+    place-items: center;
+    transform-style: preserve-3d;
+}
+
+.model-shadow {
+    position: absolute;
+    bottom: 22px;
+    width: 210px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.42);
+    filter: blur(10px);
+    transform: rotateX(68deg);
+}
+
+.instrument-model {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    transform-style: preserve-3d;
+    animation: instrument-spin 7s ease-in-out infinite;
+    transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 400ms ease;
+}
+
+.instrument-stage.is-changing .instrument-model {
+    animation: instrument-play 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.instrument-neck {
+    position: absolute;
+    z-index: 2;
+    left: 126px;
+    top: 28px;
+    width: 22px;
+    height: 124px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px 12px 4px 4px;
+    background: linear-gradient(90deg, #9a5c32, #e2ae69 55%, #7a4325);
+    box-shadow: 8px 8px 18px rgba(0, 0, 0, 0.24);
+    transform: rotate(20deg);
+    transform-origin: bottom center;
+}
+
+.instrument-body {
+    position: absolute;
+    z-index: 3;
+    left: 44px;
+    bottom: 8px;
+    width: 118px;
+    height: 118px;
+    display: grid;
+    place-items: center;
+    border: 9px solid #c98243;
+    border-radius: 46% 54% 48% 52%;
+    background:
+        radial-gradient(circle at 42% 38%, #f0c47c 0 9%, transparent 10%),
+        linear-gradient(135deg, #d99a54, #8c502f);
+    box-shadow:
+        inset 12px 10px 24px rgba(255, 226, 170, 0.25),
+        18px 18px 30px rgba(0, 0, 0, 0.28);
+}
+
+.instrument-body span {
+    width: 24px;
+    height: 24px;
+    border: 5px solid #2a1a18;
+    border-radius: 50%;
+    background: #17162d;
+}
+
+.instrument-strings {
+    position: absolute;
+    z-index: 4;
+    left: 100px;
+    bottom: 62px;
+    width: 2px;
+    height: 142px;
+    background: repeating-linear-gradient(90deg, #f9e5a8 0 1px, transparent 1px 4px);
+    transform: rotate(20deg);
+    transform-origin: bottom center;
+}
+
+.instrument-stage[data-instrument="tar"] .instrument-body {
+    border-radius: 48% 48% 42% 42%;
+    background: linear-gradient(145deg, #f1c47e, #a76332);
+}
+
+.instrument-stage[data-instrument="guitar"] .instrument-body {
+    border-radius: 50% 50% 44% 44%;
+    border-color: #b8643a;
+    background: linear-gradient(145deg, #df9a58, #713923);
+}
+
+.instrument-stage[data-instrument="violin"] .instrument-model {
+    width: 180px;
+}
+.instrument-stage[data-instrument="violin"] .instrument-body {
+    width: 82px;
+    height: 124px;
+    left: 48px;
+    border-width: 7px;
+    border-color: #9a4d27;
+    border-radius: 38% 38% 48% 48%;
+}
+.instrument-stage[data-instrument="violin"] .instrument-neck {
+    left: 86px;
+    height: 150px;
+}
+.instrument-stage[data-instrument="violin"] .instrument-strings {
+    left: 89px;
+}
+
+.instrument-stage[data-instrument="zurna"] .instrument-model {
+    transform: rotate(-28deg);
+}
+.instrument-stage[data-instrument="zurna"] .instrument-neck {
+    left: 100px;
+    width: 38px;
+    height: 190px;
+    border-radius: 38% 38% 8px 8px;
+    background: linear-gradient(90deg, #8d5032, #d7a35c 55%, #714127);
+}
+.instrument-stage[data-instrument="zurna"] .instrument-body,
+.instrument-stage[data-instrument="zurna"] .instrument-strings {
+    display: none;
+}
+
+@keyframes instrument-spin {
+    0%, 100% { transform: rotateY(-12deg) rotateX(4deg) translateY(0); }
+    50% { transform: rotateY(18deg) rotateX(-4deg) translateY(-8px); }
+}
+
+@keyframes instrument-play {
+    0% { transform: scale(0.7) rotateY(-70deg); filter: blur(7px); opacity: 0.2; }
+    55% { transform: scale(1.08) rotateY(18deg); filter: blur(0); opacity: 1; }
+    100% { transform: scale(1) rotateY(0deg); }
+}
+
+@keyframes header-arrive {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes content-arrive {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 980px) {
+    .inside_header {
+        grid-template-columns: 76px 1fr;
+        gap: 12px;
+        padding: 12px 20px;
+    }
+
+    .logo img {
+        width: 62px;
+        height: 62px;
+    }
+
+    .info {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .search {
+        max-width: 260px;
+        justify-self: end;
+    }
+
+    .kurslar_list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: -30px;
+    }
+
+    .instrument-stage {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .inside_header {
+        grid-template-columns: 64px 1fr;
+        min-height: 82px;
+        padding: 10px 14px;
+    }
+
+    .logo img {
+        width: 54px;
+        height: 54px;
+    }
+
+    .info {
+        gap: 20px;
+    }
+
+    .info a {
+        font-size: 13px;
+    }
+
+    .search input {
+        height: 40px;
+    }
+
+    .container {
+        margin: 34px auto;
+    }
+
+    .kurslar_list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .course-card {
+        min-height: 190px;
+        padding: 16px;
+    }
+
+    .instrument-stage {
+        min-height: 480px;
+        padding: 28px 18px;
+    }
+}
+
+@media (max-width: 390px) {
+    .kurslar_list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .inside_header,
+    .container {
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+}
